@@ -53,6 +53,7 @@ jobs:
           -t ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.run_id }} \
           -t ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.sha }} \
           -t ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.ref_name }} \
-          --push --platform=linux/amd64,linux/arm64 \
+          --platform=linux/amd64,linux/arm64 \
           --cache-from type=gha --cache-to type=gha,mode=max \
           .
+          docker image push -a ${{ env.REGISTRY }}/${{ github.repository }}
