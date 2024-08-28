@@ -62,7 +62,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Push image
-        id: build
+        id: push
         if: ${{ github.event_name != 'pull_request' }}
         run: |
           docker image push -a ${{ env.REGISTRY }}/${{ github.repository }}
