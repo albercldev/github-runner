@@ -57,7 +57,7 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ github.repository }}:latest,${{ github.repository }}:${{ github.sha }},${{ github.repository }}:${{ github.ref }}
+          tags: ${{ github.repository }}:latest,${{ github.repository }}:${{ github.sha }},${{ github.repository }}:${{ github.head_ref }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
