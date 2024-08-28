@@ -60,6 +60,7 @@ jobs:
             ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.ref_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          outputs: image
 
       - name: Push image
         id: push
