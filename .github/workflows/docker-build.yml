@@ -65,9 +65,9 @@ jobs:
         id: push
         if: ${{ github.event_name != 'pull_request' }}
         run: |
-          docker image tag ${{ steps.build.imageid }} ${{ env.REGISTRY }}/${{ github.repository }}:latest
-          docker image tag ${{ steps.build.imageid }} ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.run_id }}
-          docker image tag ${{ steps.build.imageid }} ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.sha }}
-          docker image tag ${{ steps.build.imageid }} ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.ref_name }}
+          docker image tag ${{ steps.build.outputs.imageid }} ${{ env.REGISTRY }}/${{ github.repository }}:latest
+          docker image tag ${{ steps.build.outputs.imageid }} ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.run_id }}
+          docker image tag ${{ steps.build.outputs.imageid }} ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.sha }}
+          docker image tag ${{ steps.build.outputs.imageid }} ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.ref_name }}
           docker image push -a ${{ env.REGISTRY }}/${{ github.repository }}
 
