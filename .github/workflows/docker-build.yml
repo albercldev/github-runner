@@ -52,10 +52,10 @@ jobs:
           platforms: linux/amd64,linux/arm64
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: >
-            ${{ env.REGISTRY }}/${{ github.repository }}:latest,
-            ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.run_id }},
-            ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.sha }},
+          tags: |
+            ${{ env.REGISTRY }}/${{ github.repository }}:latest
+            ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.run_id }}
+            ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.sha }}
             ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.ref_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
