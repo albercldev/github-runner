@@ -10,7 +10,7 @@ fi
 ./config.sh --unattended --url $GH_RUNNER_URL --token $GH_RUNNER_TOKEN --replace --name $GH_RUNNER_NAME --labels $GH_RUNNER_LABELS
 
 # Copy credentials and runner to .store folder
-cp .credentials /actions-runner/
-cp .runner /actions-runner/
+cp .credentials /actions-runner/.store
+cp .runner /actions-runner/.store
 
 ./run.sh
