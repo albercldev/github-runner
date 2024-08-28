@@ -43,6 +43,23 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ${{ env.REGISTRY }}/${{ github.repository }}        
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build Docker image
@@ -50,9 +67,11 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           provenance: false
+          attests:
           platforms: linux/amd64,linux/arm64
           context: .
-          push: false
+          push: ${{ github.event_name != 'pull_request' }}
+          labels: ${{ steps.meta.outputs.labels }}
           tags: |
             ${{ env.REGISTRY }}/${{ github.repository }}:latest
             ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.run_id }}
@@ -61,14 +80,3 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           outputs: image
-
-      - name: Push image
-        id: push
-        if: ${{ github.event_name != 'pull_request' }}
-        run: |
-          docker image tag ${{ steps.build.outputs.imageid }} ${{ env.REGISTRY }}/${{ github.repository }}:latest
-          docker image tag ${{ steps.build.outputs.imageid }} ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.run_id }}
-          docker image tag ${{ steps.build.outputs.imageid }} ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.sha }}
-          docker image tag ${{ steps.build.outputs.imageid }} ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.ref_name }}
-          docker image push -a ${{ env.REGISTRY }}/${{ github.repository }}
-
