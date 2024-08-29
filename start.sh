@@ -19,7 +19,7 @@ if [ -f /actions-runner/.store/svc.sh ]; then
   cp /actions-runner/.store/svc.sh .
 fi
 if [ -d /actions-runner/.store/_diag ]; then
-  cp /actions-runner/.store/_diag .
+  cp -r /actions-runner/.store/_diag .
 fi
 
 ./config.sh --unattended --url $GH_RUNNER_URL --token $GH_RUNNER_TOKEN --replace --name $GH_RUNNER_NAME --labels $GH_RUNNER_LABELS
